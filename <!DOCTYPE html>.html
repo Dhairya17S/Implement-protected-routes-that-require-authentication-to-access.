@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protected Route Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div id="login" class="card">
+    <h2>🔑 Login</h2>
+    <input type="text" id="username" placeholder="Username" />
+    <input type="password" id="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <!-- Protected Dashboard -->
+  <div id="dashboard" class="card">
+    <h2>🎉 Dashboard</h2>
+    <p>Welcome! You’re logged in.</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "admin" && pass === "1234") {
+        localStorage.setItem("auth", "true");
+        showDashboard();
+      } else {
+        alert("Invalid credentials!");
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("auth");
+      showLogin();
+    }
+
+    function showDashboard() {
+      document.getElementById("login").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+    }
+
+    function showLogin() {
+      document.getElementById("login").style.display = "block";
+      document.getElementById("dashboard").style.display = "none";
+    }
+
+    // check auth on page load
+    window.onload = () => {
+      if (localStorage.getItem("auth") === "true") {
+        showDashboard();
+      } else {
+        showLogin();
+      }
+    };
+  </script>
+</body>
+</html>
